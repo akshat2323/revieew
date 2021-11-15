@@ -30,10 +30,10 @@ const Home = () => {
         getMovieRequest(search);
     }, [search]);
 
-    useEffect(()=>{
-        const moviefav= JSON.parse(localStorage.getItem('favourites'));
-        setFav(moviefav);
-    }, []);
+//     useEffect(()=>{
+//         const moviefav= JSON.parse(localStorage.getItem('favourites'));
+//         setFav(moviefav);
+//     }, []);
 
 
     const saveList = (items)=> {
