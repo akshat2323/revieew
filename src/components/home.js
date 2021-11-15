@@ -3,12 +3,16 @@ import MovieList from "./movieList";
 import MovieHeading from "./MovieHeading";
 import SearchBox from "./SearchBox";
 import './home.css'
+import AddFav from "./AddFav";
+import RemoveFav from "./RemoveFav";
 
 
 const Home = () => {
     const [movies, setmovies] = useState([]);
 
     const [search, setSearch] = useState('');
+
+    const[fav, setFav] = useState([]);
 
 
     const getMovieRequest =  ( async (search)=>{
@@ -26,15 +30,46 @@ const Home = () => {
         getMovieRequest(search);
     }, [search]);
 
+    useEffect(()=>{
+        const moviefav= JSON.parse(localStorage.getItem('favourites'));
+        setFav(moviefav);
+    }, []);
+
+
+    const saveList = (items)=> {
+        localStorage.setItem('favourites', JSON.stringify(items));
+    };
+
+
+    const addFavMovie = (movie) =>{
+        const newFav = [...fav, movie];
+        setFav(newFav);
+        saveList(newFav);
+    };
+
+    const removeFavMovie = (movie) => {
+        const newFav = fav.filter((fav)=> fav.imdbID !== movie.imdbID);
+        setFav(newFav);
+        saveList(newFav);
+    };
+
     return( <div className='container-fluid movie-app'>
         <div className="d-flex justify-content-between align-items-center mt-4 mb-4">
         <MovieHeading heading="Movies"/>
         <SearchBox search={search} setSearch={setSearch}/>
         </div>
         <div className='row'>
-        <MovieList movies = {movies}/>
+        <MovieList movies = {movies} handlefav={addFavMovie} favcomponent={AddFav}/>
             </div>
-    </div> )
+            <div className="d-flex justify-content-between align-items-center mt-4 mb-4">
+        <MovieHeading heading="Whislist"/>
+        
+        </div>
+        <div className='row'>
+        <MovieList movies = {fav} handlefav={removeFavMovie} favcomponent={RemoveFav}/>
+            </div>
+    </div>
+     )
     
 }
 
