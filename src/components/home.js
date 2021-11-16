@@ -58,7 +58,7 @@ const Home = () => {
 
 
     const addFavMovie = (movie) => {
-        const newFav = [fav, movie];
+        const newFav = [...fav,movie];
         setFav(newFav);
         saveList(newFav);
     };
@@ -79,7 +79,6 @@ const Home = () => {
         </div>
         <div className="d-flex justify-content-between align-items-center mt-4 mb-4">
             <MovieHeading heading="Whislist" />
-
         </div>
         <div className='row'>
             <MovieList movies={fav} handlefav={removeFavMovie} favcomponent={RemoveFav} />
